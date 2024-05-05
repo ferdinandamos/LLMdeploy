@@ -2,10 +2,13 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from openai import OpenAI
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
-api_key = os.environ.get("OPEN_API_KEY")
+api_key = os.getenv("OPEN_API_KEY")
 client = OpenAI(api_key=api_key)
 
 class TranslationRequest(BaseModel):
