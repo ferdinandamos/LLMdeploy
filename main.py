@@ -24,8 +24,6 @@ app.add_middleware(
 
 load_dotenv()
 
-app = FastAPI()
-
 api_key = os.getenv("OPEN_API_KEY")
 client = OpenAI(api_key=api_key)
 
