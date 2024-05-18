@@ -3,6 +3,24 @@ from pydantic import BaseModel
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 load_dotenv()
 
@@ -11,7 +29,7 @@ app = FastAPI()
 api_key = os.getenv("OPEN_API_KEY")
 client = OpenAI(api_key=api_key)
 
-class TranslationRequest(BaseModel):
+class PromptRequest(BaseModel):
     input_str: str
 
 @app.get("/")
@@ -33,7 +51,7 @@ def answer(input_str):
 
 
 @app.post("/answer/")  # This line decorates 'answer' as a POST endpoint
-async def translate(request: TranslationRequest):
+async def translate(request: PromptRequest):
     try:
         # Call your translation function
         answer_text = answer(request.input_str)
