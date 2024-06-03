@@ -7,13 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:3000"
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -87,7 +81,7 @@ def answer(input_str):
 
 
 @app.post("/answer/")  # This line decorates 'answer' as a POST endpoint
-async def translate(request: PromptRequest):
+async def generate(request: PromptRequest):
     try:
         # Call your translation function
         answer_text = answer(request.input_str)
